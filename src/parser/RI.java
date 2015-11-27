@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ri;
+package parser;
 
 import org.jsoup.*;
 import java.io.IOException;
