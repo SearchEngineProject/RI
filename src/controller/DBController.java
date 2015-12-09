@@ -20,19 +20,25 @@ public class DBController {
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
 				System.exit(0);
 				}
-		System.out.println("Opened database successfully");
+		//System.out.println("Opened database successfully");
 	}
         
         
 	
 	// database disconnection
 	public void disconnect(){
-		//this.c.close();
+            try{
+		this.c.close();
+            }
+            catch(Exception e)
+            {
+                System.err.println("Error closing conn");
+            }
 	}
 	
 	// insert a term into database
 	public void insert_term (String term, int iddoc, String balise){
-                this.connect();
+                //this.connect();
 		Statement stmt = null;
 		try {
 			this.c.setAutoCommit(false);
@@ -69,12 +75,13 @@ public class DBController {
                         
 			stmt.close();
 			this.c.commit();
-
+                        //this.c.close();
 			} catch (Exception e) {
 				System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 				System.exit(0);
 				}
-		System.out.println("Records created successfully");
+		System.out.println("Term Records created successfully");
+                
 		}
 	
 	// check if input term exists in database
