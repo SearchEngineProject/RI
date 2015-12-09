@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 public class DBController {
 	
@@ -127,5 +128,80 @@ public class DBController {
             }
             return 0;
         }
+        
+        public HashMap term_query(String term)
+        {
+            HashMap<Integer, Integer> results = new HashMap<Integer, Integer> ();
+            
+            int id_term = this.getTermId(term);
+            try{
+                Statement stmt = null;
+                stmt = this.c.createStatement();
+                String sql = "Select iddoc, idbalise from  where idterm ='" + id_term +"'";
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next())
+                {
+                    int doc_id = rs.getInt(1);
+                    int balise_id = rs.getInt(2);
+                    
+                    
+                    
+                    
+                }else
+                {
+                    System.err.println("Error query db for term");
+                }
+            }catch(Exception e){
+                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+		System.exit(0);
+            }
+            
+            
+        }
 	
+        public String getBaliseText(int balise_id)
+        {
+            try{
+                Statement stmt = null;
+                stmt = this.c.createStatement();
+                String sql = "Select balise from  where term ='" + balise_id +"'";
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next())
+                {
+                    return rs.getString(1);
+                }else
+                {
+                    return "";
+                }
+            }catch(Exception e){
+                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+		System.exit(0);
+            }
+            return "";
+            
+        }
+        
+        public int getTermId(String term)
+        {
+            try{
+                Statement stmt = null;
+                stmt = this.c.createStatement();
+                String sql = "Select * from term where term ='" + term +"'";
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next())
+                {
+                    return rs.getInt(1);
+                }else
+                {
+                    return 0;
+                }
+            }catch(Exception e){
+                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+                
+		System.exit(0);
+            }
+            return 0;
+        }
+        
+        
 }

@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import controller.DBController;
+import java.util.HashMap;
 //import org.w3c.dom.*;
 /**
  *
@@ -90,4 +91,12 @@ public class RI {
             
         }
     }
+    public static void ChercherDocs(String query)
+    {
+        String[] keyword_list = query.split(" ");
+        HashMap<Integer, Integer> result = new HashMap<Integer, Integer> ();
+        
+        
+    }
+    
 }
