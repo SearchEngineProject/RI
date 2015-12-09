@@ -13,6 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import controller.DBController;
 //import org.w3c.dom.*;
 /**
  *
@@ -60,6 +61,7 @@ public class RI {
             }
         }catch(Exception e)
         {
+            System.out.print(e);
             System.out.print("IO Error!");
         }
     }
@@ -71,6 +73,11 @@ public class RI {
             String[] word_list = s.split(" ");
             //TODO: add every word into db with (WORD, docID, Balise)
             //add2DB(word, docid, balise);
+            DBController dbo = new controller.DBController();
+            for (String word : word_list)
+            {
+                dbo.insert_term(word, docID, balise);
+            }
         }catch(Exception e)
         {
             
