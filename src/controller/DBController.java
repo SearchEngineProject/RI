@@ -125,9 +125,43 @@ public class DBController {
         }
         
         
-        public HashMap term_query(String term)
+        public HashMap multiple_term_query(String term)
         {
-            HashMap<Integer, Integer> results = new HashMap<Integer, Integer> ();
+            //term should be seperated by empty space
+            String[] words = term.split(" ");
+            
+            
+            HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
+            
+
+            for(String word : words)
+            {
+                HashMap<Integer, Double> single_results = this.single_term_query(word);
+                
+                for(int doc_id : single_results.keySet())
+                {
+                
+                    if(results.containsKey(doc_id))
+                    {
+                        double o_value =  results.get(doc_id);
+                        double n_value = o_value+ single_results.get(doc_id);
+                        results.put(doc_id, n_value);
+                    }
+                    else
+                    {
+                        results.put(doc_id, single_results.get(doc_id));
+                   }
+                }
+            }
+            return results;
+        }
+        
+        public HashMap single_term_query(String term)
+        {
+            
+            
+            //HashMap<Integer, Integer> raw_results = new HashMap<Integer, Integer> ();
+            HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
             
             int id_term = this.getTermId(term);
             try{
@@ -135,16 +169,24 @@ public class DBController {
                 stmt = this.c.createStatement();
                 String sql = "Select iddoc, idbalise from indexation where idterm ='" + id_term +"'";
                 ResultSet rs = stmt.executeQuery(sql);
-                if(rs.next())
+                while(rs.next())
                 {
                     int doc_id = rs.getInt(1);
                     int balise_id = rs.getInt(2);
-                    results.put(doc_id, balise_id);
-                }else
-                {
-                    System.err.println("Error query db for term");
+                    double balise_importance = 0.2;
+                    
+                    if(results.containsKey(doc_id))
+                    {
+                        double o_value =  results.get(doc_id);
+                        double n_value = o_value+balise_importance;
+                        results.put(doc_id, n_value);
+                    }
+                    else
+                    {
+                        results.put(doc_id, balise_importance);
+                    }
+                        //results.put results.get(doc_id) + balise_importance;
                 }
-                
             }catch(Exception e){
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 		System.exit(0);
