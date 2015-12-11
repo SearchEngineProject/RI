@@ -7,15 +7,13 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 public class DBController {
-	
-    
         Connection c = null;
         
 	// database connection
 	public void connect(){
 		try {
 			Class.forName("org.postgresql.Driver");
-			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","postgres","123456");
+			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","yuanbo","");
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -24,8 +22,6 @@ public class DBController {
 		//System.out.println("Opened database successfully");
 	}
         
-        
-	
 	// database disconnection
 	public void disconnect(){
             try{
@@ -81,7 +77,6 @@ public class DBController {
 				System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 				System.exit(0);
 				}
-		System.out.println("Term Records created successfully");
                 
 		}
 	
@@ -129,6 +124,7 @@ public class DBController {
             return 0;
         }
         
+        
         public HashMap term_query(String term)
         {
             HashMap<Integer, Integer> results = new HashMap<Integer, Integer> ();
@@ -137,26 +133,23 @@ public class DBController {
             try{
                 Statement stmt = null;
                 stmt = this.c.createStatement();
-                String sql = "Select iddoc, idbalise from  where idterm ='" + id_term +"'";
+                String sql = "Select iddoc, idbalise from indexation where idterm ='" + id_term +"'";
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next())
                 {
                     int doc_id = rs.getInt(1);
                     int balise_id = rs.getInt(2);
-                    
-                    
-                    
-                    
+                    results.put(doc_id, balise_id);
                 }else
                 {
                     System.err.println("Error query db for term");
                 }
+                
             }catch(Exception e){
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 		System.exit(0);
             }
-            
-            
+            return results ;
         }
 	
         public String getBaliseText(int balise_id)
@@ -184,8 +177,7 @@ public class DBController {
         public int getTermId(String term)
         {
             try{
-                Statement stmt = null;
-                stmt = this.c.createStatement();
+                Statement stmt = this.c.createStatement();
                 String sql = "Select * from term where term ='" + term +"'";
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next())
@@ -196,12 +188,9 @@ public class DBController {
                     return 0;
                 }
             }catch(Exception e){
-                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-                
+                System.err.println(e.getClass().getName()+": "+ e.getMessage());
 		System.exit(0);
             }
             return 0;
         }
-        
-        
 }
