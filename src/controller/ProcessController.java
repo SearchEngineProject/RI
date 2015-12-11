@@ -51,6 +51,7 @@ public class ProcessController {
                 // if the word is not empty and not appear in stoplist
                 if(word.length() != 0 && !Utils.isInStoplist(word)){
                     dbo.insert_term(word, docID, balise);
+                    System.out.println(word);
                 }
             }
             dbo.disconnect();
@@ -86,5 +87,59 @@ public class ProcessController {
     {
         String[] keyword_list = query.split(" ");
         HashMap<Integer, Integer> result = new HashMap<Integer, Integer> ();
+    }
+    
+    public HashMap ProcessQuery(String query)
+    {
+        DBController dbo = new DBController();
+        dbo.connect();
+        //term should be seperated by empty space
+        String[] words = query.split(" ");
+        HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
+        for(String word : words)
+        {
+        HashMap<Integer, Double> single_results = dbo.single_term_query(word);
+
+        for(int doc_id : single_results.keySet())
+        {
+
+            if(results.containsKey(doc_id))
+            {
+                double o_value =  results.get(doc_id);
+                double n_value = o_value+ single_results.get(doc_id);
+                results.put(doc_id, n_value);
+            }
+            else
+            {
+                results.put(doc_id, single_results.get(doc_id));
+           }
+        }
+        dbo.disconnect();
+    }
+    return results;
+}
+            
+    public void ProcessEvaluation(){
+        
+        
+    }
+    
+    public void ImportQrel(String path){
+        
+        ArrayList<String> qrel_ref = new ArrayList<String>();
+        try {
+            File f = new File(path);
+            Scanner s = new Scanner(new FileInputStream(f),"ISO-8859-1");
+            while(s.hasNextLine()){
+                String[] ref = s.nextLine().split(" ");
+                
+                
+                qrel_ref.add(s.nextLine());
+            }
+            s.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ProcessController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

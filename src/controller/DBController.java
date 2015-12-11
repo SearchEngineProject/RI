@@ -125,36 +125,7 @@ public class DBController {
         }
         
         
-        public HashMap multiple_term_query(String term)
-        {
-            //term should be seperated by empty space
-            String[] words = term.split(" ");
-            
-            
-            HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
-            
 
-            for(String word : words)
-            {
-                HashMap<Integer, Double> single_results = this.single_term_query(word);
-                
-                for(int doc_id : single_results.keySet())
-                {
-                
-                    if(results.containsKey(doc_id))
-                    {
-                        double o_value =  results.get(doc_id);
-                        double n_value = o_value+ single_results.get(doc_id);
-                        results.put(doc_id, n_value);
-                    }
-                    else
-                    {
-                        results.put(doc_id, single_results.get(doc_id));
-                   }
-                }
-            }
-            return results;
-        }
         
         public HashMap single_term_query(String term)
         {
@@ -164,6 +135,8 @@ public class DBController {
             HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
             
             int id_term = this.getTermId(term);
+                                                
+                                                                                    System.out.println(id_term);
             try{
                 Statement stmt = null;
                 stmt = this.c.createStatement();
@@ -224,6 +197,7 @@ public class DBController {
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next())
                 {
+
                     return rs.getInt(1);
                 }else
                 {

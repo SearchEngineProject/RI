@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import controller.HTMLController;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import utils.Utils;
@@ -53,13 +54,10 @@ public class Test {
             }
                     */
             
-            boolean a = Utils.isInStoplist("");
-            if(a){
-                System.out.println("yes");
-            }
-            else{
-                System.out.println("no");
-            }
+            String a = "title" ;
+            HTMLController c = new HTMLController();
+            int t = c.getDegreeImportance(a);
+            System.out.println(t);
         }
     
 }
