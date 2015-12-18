@@ -146,9 +146,11 @@ public class DBController {
                 {
                     int doc_id = rs.getInt(1);
                     int balise_id = rs.getInt(2);
-                    HTMLController htmlhelper = new HTMLController();
-                    double balise_importance = htmlhelper.getDegreeImportance("term");
                     
+                    HTMLController htmlhelper = new HTMLController();
+                    System.out.println(getBaliseText(balise_id));
+                    double balise_importance = htmlhelper.getDegreeImportance(getBaliseText(balise_id));
+                    System.out.println("Debug");
                     if(results.containsKey(doc_id))
                     {
                         double o_value =  results.get(doc_id);
@@ -173,7 +175,7 @@ public class DBController {
             try{
                 Statement stmt = null;
                 stmt = this.c.createStatement();
-                String sql = "Select balise from  where term ='" + balise_id +"'";
+                String sql = "Select balise from balise where idbalise ='" + balise_id +"'";
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next())
                 {
@@ -198,7 +200,6 @@ public class DBController {
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next())
                 {
-
                     return rs.getInt(1);
                 }else
                 {

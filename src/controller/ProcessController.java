@@ -85,6 +85,7 @@ public class ProcessController {
             
             //process b
             Elements b_elements = doc.select("b");
+            System.out.println("Beginning B");
             for (Element e : b_elements){
                 //System.out.println(e + e.text());
                 //System.exit(0);
@@ -95,7 +96,7 @@ public class ProcessController {
             Elements p_elements = doc.select("p");
             System.out.println("Beginning P");
             for (Element e : p_elements){
-                ProcessText(e.text(), docId, "p");
+                //ProcessText(e.text(), docId, "p");
             }              
         }catch(Exception e)
         {
