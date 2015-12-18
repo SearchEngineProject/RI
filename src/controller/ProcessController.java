@@ -29,9 +29,74 @@ public class ProcessController {
             //process meta keyword
             Elements keyword_meta = doc.select("meta[name=\"keywords\"]");
             for (Element e : keyword_meta){
-                ProcessText(e.attr("Content"), docId, "keywords");
+                ProcessText(e.attr("Content"), docId, "meta-keyword");
             }
-
+            
+            //process meta-description
+            Elements meta_desc = doc.select("meta[name=\"description\"]");
+            for (Element e : meta_desc){
+                
+                ProcessText(e.attr("Content"), docId, "meta-description");
+            }
+            //process meta-classification
+            Elements meta_class = doc.select("meta[name=\"classification\"]");
+            for (Element e : meta_class){
+                ProcessText(e.attr("Content"), docId, "meta-classification");
+            }
+            
+            //process h1
+            Elements h1_elements = doc.select("h1");
+            for (Element e : h1_elements){
+                //System.out.println(e + e.text());
+                ProcessText(e.text(), docId, "h1");
+            }
+            
+            //process h2
+            Elements h2_elements = doc.select("h2");
+            for (Element e : h2_elements){
+                //System.out.println(e + e.text());
+                ProcessText(e.text(), docId, "h2");
+            }
+            
+            //process h3
+            Elements h3_elements = doc.select("h3");
+            for (Element e : h3_elements){
+                //System.out.println(e + e.text());
+                //System.exit(0);
+                ProcessText(e.text(), docId, "h3");
+            }
+                        
+            //process em
+            Elements em_elements = doc.select("em");
+            for (Element e : em_elements){
+                //ystem.out.println(e + e.text());
+                //System.exit(0);
+                ProcessText(e.text(), docId, "em");
+            }
+            
+            
+            //process li
+            Elements li_elements = doc.select("li");
+            for (Element e : li_elements){
+                //System.out.println(e + e.text());
+                //System.exit(0);
+                ProcessText(e.text(), docId, "li");
+            }            
+            
+            //process b
+            Elements b_elements = doc.select("b");
+            for (Element e : b_elements){
+                //System.out.println(e + e.text());
+                //System.exit(0);
+                ProcessText(e.text(), docId, "b");
+            }  
+            
+            //process p
+            Elements p_elements = doc.select("p");
+            System.out.println("Beginning P");
+            for (Element e : p_elements){
+                ProcessText(e.text(), docId, "p");
+            }              
         }catch(Exception e)
         {
             System.out.print(e);
@@ -51,7 +116,7 @@ public class ProcessController {
                 // if the word is not empty and not appear in stoplist
                 if(word.length() != 0 && !Utils.isInStoplist(word)){
                     dbo.insert_term(word, docID, balise);
-                    System.out.println(word);
+                    //System.out.println(word);
                 }
             }
             dbo.disconnect();
@@ -93,6 +158,7 @@ public class ProcessController {
     {
         DBController dbo = new DBController();
         dbo.connect();
+        
         //term should be seperated by empty space
         String[] words = query.split(" ");
         HashMap<Integer, Double> results = new HashMap<Integer, Double> ();

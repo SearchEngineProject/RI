@@ -14,16 +14,15 @@ public class Main {
             ProcessController processController = new ProcessController();
             String currentPath = System.getProperty("user.dir");
 
-        /*
             for( int i = 1 ; i<= 138; i++)
             {
                 processController.processFile(currentPath + "/dist/CORPUS/D" +i + ".html", i);
-                //System.out.println(currentPath + "/dist/CORPUS/D" +i + ".html");
+                System.out.println(currentPath + "/dist/CORPUS/D" +i + ".html");
             }
             
             for(int i = 1 ; i<9 ; i ++){
-                processController.ProcessEvaluation(currentPath + "/dist/qrels/qrelQ" +i + ".txt", i);
-            }*/
+                //processController.ProcessEvaluation(currentPath + "/dist/qrels/qrelQ" +i + ".txt", i);
+            }
             
             HashMap<Integer,Double> map = new HashMap<Integer,Double>();
             map = processController.ProcessQuery("Nicolas");

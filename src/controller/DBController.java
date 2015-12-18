@@ -13,7 +13,7 @@ public class DBController {
 	public void connect(){
 		try {
 			Class.forName("org.postgresql.Driver");
-			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","yuanbo","");
+			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","postgres","123456");
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -136,7 +136,7 @@ public class DBController {
             
             int id_term = this.getTermId(term);
                                                 
-                                                                                    System.out.println(id_term);
+            //System.out.println(id_term);
             try{
                 Statement stmt = null;
                 stmt = this.c.createStatement();
@@ -146,7 +146,8 @@ public class DBController {
                 {
                     int doc_id = rs.getInt(1);
                     int balise_id = rs.getInt(2);
-                    double balise_importance = 0.2;
+                    HTMLController htmlhelper = new HTMLController();
+                    double balise_importance = htmlhelper.getDegreeImportance("term");
                     
                     if(results.containsKey(doc_id))
                     {

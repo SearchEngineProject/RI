@@ -12,13 +12,13 @@ public class HTMLController {
             HTMLElementList.put("meta-keyword", 90);
             HTMLElementList.put("meta-description", 90);
             HTMLElementList.put("meta-classification", 90);
-            HTMLElementList.put("meta-keyword", 90);
             HTMLElementList.put("h1", 80);
             HTMLElementList.put("h2", 60);
             HTMLElementList.put("h3", 40);
             HTMLElementList.put("em", 30);
             HTMLElementList.put("b", 30);
             HTMLElementList.put("li", 30);
+            HTMLElementList.put("p", 20);
 	}
 
 	public int getDegreeImportance(String element) {

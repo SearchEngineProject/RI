@@ -22,7 +22,10 @@ public class Utils {
         ArrayList<String> stoplist = pc.ProcessStoplist(Constant.getStoplistPath());
         for(String s : stoplist){
             if(Utils.formatString(term).equals(Utils.formatString(s)))
+            {
+                //System.out.print(s);
                 result = true;
+            }
         }
         return result ;
     }
