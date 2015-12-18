@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/Users/yuanbo/RI/src/main/Main.java</file>
+            <file>file:/Users/yuanbo/RI/src/controller/HTMLController.java</file>
+            <file>file:/Users/yuanbo/RI/src/controller/DBController.java</file>
+            <file>file:/Users/yuanbo/RI/src/utils/Utils.java</file>
+            <file>file:/Users/yuanbo/RI/src/controller/ProcessController.java</file>
+        </group>
+>>>>>>> a5826c89ab90308254c9d5248495a369937d8890
     </open-files>
 </project-private>

@@ -13,13 +13,12 @@ public class DBController {
 	public void connect(){
 		try {
 			Class.forName("org.postgresql.Driver");
-			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","postgres","123456");
+			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","yuanbo","");
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
 				System.exit(0);
 				}
-		//System.out.println("Opened database successfully");
 	}
         
 	// database disconnection
@@ -35,7 +34,6 @@ public class DBController {
 	
 	// insert a term into database
 	public void insert_term (String term, int iddoc, String balise){
-                //this.connect();
 		Statement stmt = null;
 		try {
 			this.c.setAutoCommit(false);
@@ -129,14 +127,10 @@ public class DBController {
         
         public HashMap single_term_query(String term)
         {
-            
-            
-            //HashMap<Integer, Integer> raw_results = new HashMap<Integer, Integer> ();
             HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
             
             int id_term = this.getTermId(term);
                                                 
-            //System.out.println(id_term);
             try{
                 Statement stmt = null;
                 stmt = this.c.createStatement();

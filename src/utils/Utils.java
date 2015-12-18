@@ -2,8 +2,11 @@
 package utils;
 
 import constant.Constant;
+import controller.DBController;
 import controller.ProcessController;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import org.apache.commons.lang3.StringUtils;
 
 public class Utils {
@@ -13,22 +16,5 @@ public class Utils {
         String output = StringUtils.stripAccents(input).toLowerCase();
         return output ;
     }
-    
-    
-    // check if a term is in stoplist
-    public static boolean isInStoplist(String term){
-        boolean result = false ;
-        ProcessController pc = new ProcessController();
-        ArrayList<String> stoplist = pc.ProcessStoplist(Constant.getStoplistPath());
-        for(String s : stoplist){
-            if(Utils.formatString(term).equals(Utils.formatString(s)))
-            {
-                //System.out.print(s);
-                result = true;
-            }
-        }
-        return result ;
-    }
-    
-    
+
 }
