@@ -58,6 +58,7 @@ public class ProcessController {
                 ProcessText(e.text(), docId, "h1");
             }
             
+            /*
             //process h2
             Elements h2_elements = doc.select("h2");
             for (Element e : h2_elements){
@@ -103,7 +104,7 @@ public class ProcessController {
             Elements p_elements = doc.select("p");
             for (Element e : p_elements){
                 //ProcessText(e.text(), docId, "p");
-            }              
+            }              */
 
         }catch(Exception e)
         {
@@ -174,11 +175,13 @@ public class ProcessController {
         //term should be seperated by empty space
         String[] words = query.split(" ");
         HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
+        
         for(String word : words)
         {
             HashMap<Integer, Double> single_results = dbc.single_term_query(word);
+            
             System.out.println(word);
-
+            
             for(int doc_id : single_results.keySet())
             {
                 if(results.containsKey(doc_id))

@@ -136,6 +136,7 @@ public class DBController {
                 stmt = this.c.createStatement();
                 String sql = "Select iddoc, idbalise from indexation where idterm ='" + id_term +"'";
                 ResultSet rs = stmt.executeQuery(sql);
+                
                 while(rs.next())
                 {
                     int doc_id = rs.getInt(1);
@@ -143,7 +144,9 @@ public class DBController {
                     
                     HTMLController htmlhelper = new HTMLController();
                     System.out.println(getBaliseText(balise_id));
+                    
                     double balise_importance = htmlhelper.getDegreeImportance(getBaliseText(balise_id));
+                    
                     System.out.println("Debug");
                     if(results.containsKey(doc_id))
                     {
@@ -161,6 +164,7 @@ public class DBController {
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 		System.exit(0);
             }
+            System.out.println("ok");
             return results ;
         }
 	
@@ -169,8 +173,10 @@ public class DBController {
             try{
                 Statement stmt = null;
                 stmt = this.c.createStatement();
+                
                 String sql = "Select balise from balise where idbalise ='" + balise_id +"'";
                 ResultSet rs = stmt.executeQuery(sql);
+                
                 if(rs.next())
                 {
                     return rs.getString(1);
