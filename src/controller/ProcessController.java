@@ -1,5 +1,6 @@
 package controller;
 
+import constant.Constant;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +17,12 @@ import org.jsoup.select.Elements;
 import utils.Utils;
 
 public class ProcessController {
+    
+    private DBController dbc ;
+    
+    public ProcessController(DBController dbc){
+        this.dbc = dbc ;
+    }
     
     public void processFile(String path, int docId)
     {
@@ -89,18 +96,18 @@ public class ProcessController {
                 //System.out.println(e + e.text());
                 //System.exit(0);
                 ProcessText(e.text(), docId, "b");
-            }  
+            }
             
             //process p
             Elements p_elements = doc.select("p");
-            System.out.println("Beginning P");
             for (Element e : p_elements){
                 ProcessText(e.text(), docId, "p");
             }              
+
         }catch(Exception e)
         {
             System.out.print(e);
-            System.out.print("IO Error!");
+            System.out.print(path+"IO Error!");
         }
     }
     
@@ -109,21 +116,28 @@ public class ProcessController {
             String s = Normalizer.normalize(rawText, Normalizer.Form.NFD);
             s = s.replaceAll("[^a-zA-Z0-9 ]", "");
             String[] word_list = s.split(" ");
-            DBController dbo = new controller.DBController();
-            dbo.connect();
             for (String word : word_list)
             {
                 // if the word is not empty and not appear in stoplist
-                if(word.length() != 0 && !Utils.isInStoplist(word)){
-                    dbo.insert_term(word, docID, balise);
-                    //System.out.println(word);
+                if(word.length() != 0 && !isInStoplist(word)){
+                    dbc.insert_term(word, docID, balise);
                 }
             }
-            dbo.disconnect();
         }catch(Exception e)
         {
             
         }
+    }
+    
+    // check if a term is in stoplist
+    public boolean isInStoplist(String term){
+        boolean result = false ;
+        ArrayList<String> stoplist = ProcessStoplist(Constant.getStoplistPath());
+        for(String s : stoplist){
+            if(Utils.formatString(term).equals(Utils.formatString(s)))
+                result = true;
+        }
+        return result ;
     }
     
     // return a list of all stoplist words
@@ -156,31 +170,27 @@ public class ProcessController {
     
     public HashMap ProcessQuery(String query)
     {
-        DBController dbo = new DBController();
-        dbo.connect();
-        
         //term should be seperated by empty space
         String[] words = query.split(" ");
         HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
         for(String word : words)
         {
-        HashMap<Integer, Double> single_results = dbo.single_term_query(word);
+            HashMap<Integer, Double> single_results = dbc.single_term_query(word);
+            System.out.println(word);
 
-        for(int doc_id : single_results.keySet())
-        {
-
-            if(results.containsKey(doc_id))
+            for(int doc_id : single_results.keySet())
             {
-                double o_value =  results.get(doc_id);
-                double n_value = o_value+ single_results.get(doc_id);
-                results.put(doc_id, n_value);
+                if(results.containsKey(doc_id))
+                {
+                    double o_value =  results.get(doc_id);
+                    double n_value = o_value+ single_results.get(doc_id);
+                    results.put(doc_id, n_value);
+                }
+                else
+                {
+                    results.put(doc_id, single_results.get(doc_id));
+               }
             }
-            else
-            {
-                results.put(doc_id, single_results.get(doc_id));
-           }
-        }
-        dbo.disconnect();
     }
     return results;
 }
@@ -190,22 +200,32 @@ public class ProcessController {
         
     }
     
-    public void ImportQrel(String path){
+    public HashMap<Integer,Integer> ProcessImportQrel(String path){
         
-        ArrayList<String> qrel_ref = new ArrayList<String>();
+        HashMap<Integer,Integer> qrel_ref = new HashMap<Integer,Integer>();
+        int id = 0 ;
+        int ponderation = 0 ;
+        
         try {
             File f = new File(path);
             Scanner s = new Scanner(new FileInputStream(f),"ISO-8859-1");
             while(s.hasNextLine()){
-                String[] ref = s.nextLine().split(" ");
-                
-                
-                qrel_ref.add(s.nextLine());
+                String[] ref = s.nextLine().split("\\s+");
+                String[] result = ref[0].split("\\.");
+                String[] result2 = result[0].split("D");
+                id = Integer.parseInt(result2[1]);
+                if(ref[1].equals("0")){
+                    ponderation = 0 ;
+                }
+                else{
+                    ponderation = 1 ;
+                }
+                qrel_ref.put(id, ponderation);
             }
             s.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ProcessController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        return qrel_ref;
     }
 }

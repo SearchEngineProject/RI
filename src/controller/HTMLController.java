@@ -18,7 +18,6 @@ public class HTMLController {
             HTMLElementList.put("em", 30);
             HTMLElementList.put("b", 30);
             HTMLElementList.put("li", 30);
-            HTMLElementList.put("p", 20);
 	}
 
 	public int getDegreeImportance(String element) {
