@@ -28,27 +28,13 @@ public class Main {
                 processController.processFile(currentPath + "/dist/CORPUS/D" +i + ".html", i);
                 System.out.println(currentPath + "/dist/CORPUS/D" +i + ".html");
             }
-            
-           
-            
-
+            */
             
             HashMap<Integer,Double> map = new HashMap<Integer,Double>();
             map = processController.ProcessQuery("Nicolas Kad");
-            
-            
 
-            Iterator it = map.entrySet().iterator();
-            while (it.hasNext()) {
-                HashMap.Entry pair = (HashMap.Entry)it.next();
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                it.remove(); // avoids a ConcurrentModificationException
-            }
-                   */
-            
-            if(Utils.isDocPertinent(116, 1, processController))
-                System.out.println("true");
-            
+            double precision = Utils.getPrecision(map,5,1,processController);
+            System.out.println(precision);
             
             // processController.processFile(currentPath + "/dist/CORPUS/D" +1 + ".html", 1);  
         } catch(Exception e)

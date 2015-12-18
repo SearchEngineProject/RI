@@ -26,4 +26,22 @@ public class Utils {
             }
             return retour ;
     }
+    
+    public static double getPrecision(HashMap<Integer,Double> sortedMap, int level, int idQuery, ProcessController pc){
+        Iterator it = sortedMap.entrySet().iterator();
+        int nbDocPertinent = 0 ;
+        int i = 0 ;
+        double precision = 0 ;
+        while (it.hasNext() && i <= level) {
+            System.out.println("loop "+i);
+            HashMap.Entry pair = (HashMap.Entry)it.next();
+            if(isDocPertinent((int)pair.getKey(), idQuery, pc)){
+                nbDocPertinent++;
+            }
+            i++;
+        }
+        System.out.println("level="+level);
+        System.out.println("nbDocPerytinent="+nbDocPertinent);
+        return (double)nbDocPertinent/level;
+    }
 }

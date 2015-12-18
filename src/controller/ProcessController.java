@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import utils.Utils;
+import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ProcessController {
     
@@ -196,7 +207,7 @@ public class ProcessController {
                }
             }
     }
-    return results;
+    return this.sortByComparator(results, false);
 }
             
     public void ProcessEvaluation(){
@@ -232,4 +243,38 @@ public class ProcessController {
         }
         return qrel_ref;
     }
+    
+    public HashMap<Integer, Double> sortByComparator(Map<Integer, Double> unsortMap, final boolean order)
+   {
+
+       List<Entry<Integer, Double>> list = new LinkedList<Entry<Integer, Double>>(unsortMap.entrySet());
+
+       // Sorting the list based on values
+       Collections.sort(list, new Comparator<Entry<Integer, Double>>()
+       {
+           public int compare(Entry<Integer, Double> o1,
+                   Entry<Integer, Double> o2)
+           {
+               if (order)
+               {
+                   return o1.getValue().compareTo(o2.getValue());
+               }
+               else
+               {
+                   return o2.getValue().compareTo(o1.getValue());
+
+               }
+           }
+       });
+
+       // Maintaining insertion order with the help of LinkedList
+       HashMap<Integer, Double> sortedMap = new LinkedHashMap<Integer, Double>();
+       for (Entry<Integer, Double> entry : list)
+       {
+           sortedMap.put(entry.getKey(), entry.getValue());
+       }
+
+       return sortedMap;
+   }
+
 }
