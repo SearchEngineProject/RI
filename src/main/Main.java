@@ -16,8 +16,8 @@ public class Main {
 
             for( int i = 1 ; i<= 138; i++)
             {
-                processController.processFile(currentPath + "/dist/CORPUS/D" +i + ".html", i);
-                System.out.println(currentPath + "/dist/CORPUS/D" +i + ".html");
+                //processController.processFile(currentPath + "/dist/CORPUS/D" +i + ".html", i);
+                //System.out.println(currentPath + "/dist/CORPUS/D" +i + ".html");
             }
             
             for(int i = 1 ; i<9 ; i ++){
