@@ -21,6 +21,7 @@ public class Utils {
             boolean retour = false;
             String currentPath = System.getProperty("user.dir");
             HashMap<Integer,Integer> map = pc.ProcessImportQrel(currentPath + "/dist/qrels/qrelQ" +idQuery + ".txt");
+            System.out.println(idDoc);
             if(map.get(idDoc) == 1){
                 retour = true ;
             }
@@ -33,7 +34,7 @@ public class Utils {
         int i = 0 ;
         double precision = 0 ;
         while (it.hasNext() && i <= level) {
-            System.out.println("loop "+i);
+            //System.out.println("loop "+i);
             HashMap.Entry pair = (HashMap.Entry)it.next();
             if(isDocPertinent((int)pair.getKey(), idQuery, pc)){
                 nbDocPertinent++;

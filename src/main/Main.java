@@ -30,16 +30,26 @@ public class Main {
             }
             */
             
-            HashMap<Integer,Double> map = new HashMap<Integer,Double>();
-            map = processController.ProcessQuery("Nicolas Kad");
+            HashMap<Integer,Double> map1 = new HashMap<Integer,Double>();
+            HashMap<Integer,Double> map2 = new HashMap<Integer,Double>();
+            map1 = processController.ProcessQuery("personnes Intouchables");
+            map2 = processController.ProcessQueryDice("personnes Intouchables");
+            
 
-            double precision = Utils.getPrecision(map,5,1,processController);
-            System.out.println(precision);
+            System.out.print(map1);
+            double precision1 = Utils.getPrecision(map1,10,1,processController);
+            System.out.println(precision1);
+            System.out.println("\n");
+            
+            System.out.print(map2);
+            double precision2 = Utils.getPrecision(map2,10,1,processController);
+            System.out.println(precision2);
+            System.out.println("\n");
             
             // processController.processFile(currentPath + "/dist/CORPUS/D" +1 + ".html", 1);  
         } catch(Exception e)
         {
-            
+            e.printStackTrace();
         }
     }
 }

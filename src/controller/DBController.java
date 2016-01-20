@@ -13,7 +13,7 @@ public class DBController {
 	public void connect(){
 		try {
 			Class.forName("org.postgresql.Driver");
-			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","yuanbo","");
+			this.c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ri","postgres","123456");
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -81,7 +81,7 @@ public class DBController {
 	// check if input term exists in database
 	public int check_repeat_term(String term){
             try{
-             Statement stmt = null;
+                Statement stmt = null;
                 stmt = this.c.createStatement();
                 String sql = "Select * from term where term ='" + term +"'";
                 ResultSet rs = stmt.executeQuery(sql);
@@ -99,6 +99,29 @@ public class DBController {
             }
             return 0;
 	}
+        
+        public int get_total_term(int article_id)
+        {
+            try{
+                Statement stmt = null;
+                stmt = this.c.createStatement();
+                String sql = "Select count(idindex) from indexation where iddoc ='" + article_id +"'";
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next())
+                {
+                    return rs.getInt(1);
+                }else
+                {
+                    return 0;
+                }
+                
+            }catch(Exception e){
+                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+                
+		System.exit(0);
+            }
+            return 0;
+        }
         
         public int check_repeat_balise(String balise)
         {
@@ -143,11 +166,11 @@ public class DBController {
                     int balise_id = rs.getInt(2);
                     
                     HTMLController htmlhelper = new HTMLController();
-                    System.out.println(getBaliseText(balise_id));
+                    //System.out.println(getBaliseText(balise_id));
                     
                     double balise_importance = htmlhelper.getDegreeImportance(getBaliseText(balise_id));
                     
-                    System.out.println("Debug");
+                    //System.out.println("Debug");
                     if(results.containsKey(doc_id))
                     {
                         double o_value =  results.get(doc_id);
@@ -164,7 +187,7 @@ public class DBController {
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 		System.exit(0);
             }
-            System.out.println("ok");
+            //System.out.println("ok");
             return results ;
         }
 	

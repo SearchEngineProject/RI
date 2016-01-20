@@ -187,11 +187,13 @@ public class ProcessController {
         String[] words = query.split(" ");
         HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
         
+        
+        
         for(String word : words)
         {
             HashMap<Integer, Double> single_results = dbc.single_term_query(word);
             
-            System.out.println(word);
+            
             
             for(int doc_id : single_results.keySet())
             {
@@ -204,11 +206,43 @@ public class ProcessController {
                 else
                 {
                     results.put(doc_id, single_results.get(doc_id));
-               }
+                }
             }
+        }
+        return this.sortByComparator(results, false);
     }
-    return this.sortByComparator(results, false);
-}
+    
+    public HashMap ProcessQueryDice(String query)
+    {
+        String[] words = query.split(" ");
+        HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
+        
+        int lenght_query = words.length;
+        for (int doc_id = 1; doc_id< 138; doc_id++)
+        {
+            int doc_term_length = dbc.get_total_term(doc_id);
+            if (doc_term_length !=0)
+            {
+                double doc_query_match = 0;
+                for (String word : words)
+                {
+                    HashMap<Integer, Double> single_results = dbc.single_term_query(word);
+                    if (single_results.containsKey(doc_id))
+                    {
+                        doc_query_match += single_results.get(doc_id);
+                    }
+                }
+                if(doc_query_match != 0)
+                {
+                    results.put(doc_id, (double)Math.round(200*doc_query_match / (lenght_query + doc_term_length))/100 );
+                }
+                
+            }
+        }
+        return this.sortByComparator(results, false);
+        
+        
+    }
             
     public void ProcessEvaluation(){
         
