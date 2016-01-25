@@ -6,6 +6,8 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import ri.utils.Utils;
+
 public class DBController {
         Connection c = null;
         
@@ -42,6 +44,7 @@ public class DBController {
                         int term_id = -1;
                         int balise_id = -1;
                         
+                        term = Utils.formatString(term);
                         if(check_repeat_term(term) != 0)
                         {
                             term_id = check_repeat_term(term);
@@ -81,6 +84,7 @@ public class DBController {
 	// check if input term exists in database
 	public int check_repeat_term(String term){
             try{
+            	term = Utils.formatString(term);
                 Statement stmt = null;
                 stmt = this.c.createStatement();
                 String sql = "Select * from term where term ='" + term +"'";
@@ -147,6 +151,7 @@ public class DBController {
         
         public HashMap<Integer, Double> single_term_query_fichier_direct(String term)
         {
+        	term = Utils.formatString(term);
             HTMLController htmlController = new HTMLController();
         	int numdoc = 0 ;
             HashMap<Integer, Double> results = new HashMap<Integer, Double> ();
@@ -192,6 +197,7 @@ public class DBController {
 
         public HashMap<Integer,Double> single_term_query_fichier_inverse(String term)
         {
+        	term = Utils.formatString(term);
             HTMLController htmlController = new HTMLController();
             HashMap<Integer, Double> results = new HashMap<Integer, Double>();
             int id_term = this.getTermId(term);
@@ -255,6 +261,7 @@ public class DBController {
         public int getTermId(String term)
         {
             try{
+            	term = Utils.formatString(term);
                 Statement stmt = this.c.createStatement();
                 String sql = "Select * from term where term ='" + term +"'";
                 ResultSet rs = stmt.executeQuery(sql);

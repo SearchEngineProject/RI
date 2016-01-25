@@ -196,7 +196,7 @@ public class ProcessController {
     	
     	// if sparql synonyme option is active
     	if(sparql_synonyme == 1){
-            System.out.println("The synonymes found by SparQL:");
+            //System.out.println("The synonymes found by SparQL:");
         	tokenList = sparqlController.reformulate(sparqlClient, query);
     	}
 
@@ -213,8 +213,8 @@ public class ProcessController {
     		String[] words = subquery.split(" ");
     		
         	for(String word : words){
-        		if(!Utils.wordExistInList(word, tokenList)){
-        			tokenList.add(word);
+        		if(!Utils.wordExistInList(Utils.formatString(word), tokenList)){
+        			tokenList.add(Utils.formatString(word));
         		}
         	}
     	}
@@ -224,7 +224,7 @@ public class ProcessController {
             int lenght_query = tokenList.size();
             for (int doc_id = 1; doc_id< 138; doc_id++)
             {
-            	System.out.println("parsing doc:"+doc_id);
+            	//System.out.println("parsing doc:"+doc_id);
                 int doc_term_length = dbc.get_total_term(doc_id);
                 if (doc_term_length !=0)
                 {

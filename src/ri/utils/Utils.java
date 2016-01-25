@@ -22,16 +22,16 @@ public class Utils {
             try{
             if(map.get(idDoc) == 1){
                 retour = true ;
-                System.out.println(" #docid: "+idDoc);
+                //System.out.println(" #docid: "+idDoc);
             }
             }
             catch(Exception NullPointerException){
-            	System.out.println("idDoc "+idDoc+" does not exist in qrel"+idQuery);
+            	//System.out.println("idDoc "+idDoc+" does not exist in qrel"+idQuery);
             }
             return retour ;
     }
     
-    public static double getPrecision(HashMap<Integer,Double> sortedMap, int level, int idQuery, ProcessController pc){
+    public static double getPrecision(HashMap<Integer,Double> sortedMap, int level, int idQuery, ProcessController pc){  
         Iterator<Entry<Integer, Double>> it = sortedMap.entrySet().iterator();
         int nbDocPertinent = 0 ;
         int i = 0 ;
@@ -43,11 +43,10 @@ public class Utils {
             }
             i++;
         }
-        System.out.println("level="+level);
-        System.out.println("nbDocPerytinent="+nbDocPertinent);
+        //System.out.println("level="+level);
+        //System.out.println("nbDocPertinent="+nbDocPertinent);
         return (double)nbDocPertinent/level;
     }
-    
     
 	public static boolean wordExistInList(String word, ArrayList<String> list){
 		boolean result = false ;

@@ -61,8 +61,12 @@ public class SparqlClientController {
     	ArrayList<String> synonymeList = new ArrayList<String>();
         Iterable<Map<String, String>> results = sparqlClient.select(query);
         for (Map<String, String> result : results) {
-        	System.out.println(" * "+result.get("all_label"));
-        	synonymeList.add(result.get("all_label"));
+        	//System.out.println(" * "+result.get("all_label"));
+        	if(!label.equals(result)){
+        		String synonyme = result.get("all_label") ;
+        		String formated_result = Utils.formatString(synonyme);
+        		synonymeList.add(formated_result);
+        	}
         }
         return synonymeList ;
     }

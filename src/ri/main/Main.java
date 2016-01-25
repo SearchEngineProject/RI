@@ -10,21 +10,23 @@ public class Main {
         // TODO code application logic here org.jsoup.jsoup.connect("http://example.com/").get();
         try{
         	
-        	String query1 = "personnes, Intouchables";
-        	String query2 = "lieu naissance, Omar Sy";
-        	String query3 = "personnes recompensées, Intouchables";
-        	String query4 = "palmarès, Globes de Cristal 2012";
-        	String query5 = "membre jury, Globes de Cristal 2012";
-        	String query6 = "prix, Omar Sy, Globes de Cristal 2012";
-        	String query7 = "lieu, Globes Cristal 2012";
-        	String query8 = "prix, Omar Sy";
-        	String query9 = "acteur, joué avec, Omar Sy";
+        	String[] queries = {
+        			"personnes, Intouchables",
+        			"lieu naissance, Omar Sy",
+        			"personnes recompensées, Intouchables",
+        			"palmarès, Globes de Cristal 2012",
+        			"membre jury, Globes de Cristal 2012",
+        			"prix, Omar Sy, Globes de Cristal 2012",
+        			"lieu, Globes Cristal 2012",
+        			"prix, Omar Sy",
+        			"acteur, joué avec, Omar Sy"
+        			};
         	
         	MainController mainController = new MainController();
         	mainController.initDB();
         	mainController.initSparqlClient("localhost:3030/space");
         	
-        	// mainController.populateDatabase();
+        	//mainController.populateDatabase();
             
         	/* 
         	 * Method :
@@ -45,10 +47,12 @@ public class Main {
         	 * populate with sparql property tokens or not? if yes set "1", if no set "0"
         	 * 
         	 */
-
-        	double precision = mainController.getQueryPrecision(10,query1,1,0,1,1,0);
-        	System.out.println("precision is: " + precision);
-        	
+        	int i ;
+        	for(i=0;i<9;i++){
+            	double precision = mainController.getQueryPrecision(25,queries[i],i+1,1,1,1,0);
+            	//System.out.println("precision of query "+i+" is: " + precision);
+            	System.out.println(precision);
+        	}
         } catch(Exception e)
         {
             e.printStackTrace();
