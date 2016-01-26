@@ -36,7 +36,7 @@ public class Utils {
         int nbDocPertinent = 0 ;
         int i = 0 ;
         double precision = 0 ;
-        while (it.hasNext() && i <= level) {
+        while (it.hasNext() && i < level) {
             HashMap.Entry<Integer, Double> pair = (HashMap.Entry<Integer, Double>)it.next();
             if(isDocPertinent((int)pair.getKey(), idQuery, pc)){
                 nbDocPertinent++;
